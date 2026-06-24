@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>HDB Shortlist — 8 Properties Compared</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600&family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --ink: #0f0f0f;
+  --ink-mid: #4a4a4a;
+  --ink-soft: #888;
+  --ink-faint: #e0dfd8;
+  --paper: #fafaf8;
+  --surface: #f3f2ee;
+  --accent: #1a3a5c;
+  --green: #2d6a4f;
+  --green-bg: #eaf4ef;
+  --amber: #92560e;
+  --amber-bg: #fdf3e3;
+  --red: #8b2020;
+  --red-bg: #fdeaea;
+  --blue-bg: #e8f0f8;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{font-family:'DM Sans',sans-serif;background:var(--paper);color:var(--ink);font-size:14px;line-height:1.6;}
+
+/* HEADER */
+.header{background:var(--accent);padding:48px 56px 44px;position:relative;overflow:hidden;}
+.header::before{content:'';position:absolute;right:-60px;top:-60px;width:320px;height:320px;border-radius:50%;border:1px solid rgba(255,255,255,.06);}
+.eyebrow{font-family:'DM Mono',monospace;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,.38);margin-bottom:14px;}
+.header h1{font-family:'Playfair Display',serif;font-size:40px;font-weight:600;line-height:1.12;letter-spacing:-.02em;color:#fff;margin-bottom:8px;}
+.header-sub{color:rgba(255,255,255,.52);font-size:14px;font-weight:300;margin-bottom:36px;max-width:480px;}
+.header-stats{display:flex;gap:32px;flex-wrap:wrap;padding-top:28px;border-top:.5px solid rgba(255,255,255,.12);}
+.hs-label{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:rgba(255,255,255,.35);margin-bottom:4px;}
+.hs-val{font-size:19px;font-weight:500;color:#fff;}
+.hs-sub{font-size:11px;color:rgba(255,255,255,.38);margin-top:2px;}
+
+/* CONTROLS */
+.ctrl-bar{padding:18px 56px;background:#fff;border-bottom:.5px solid var(--ink-faint);display:flex;gap:24px;flex-wrap:wrap;align-items:center;position:sticky;top:0;z-index:50;}
+.ctrl{display:flex;align-items:center;gap:8px;font-size:13px;color:var(--ink-mid);}
+.ctrl strong{color:var(--ink);font-weight:500;min-width:28px;}
+.sort-btn{background:none;border:.5px solid var(--ink-faint);border-radius:6px;padding:4px 10px;font-size:12px;cursor:pointer;color:var(--ink-mid);font-family:'DM Sans',sans-serif;}
+.sort-btn.active{background:var(--accent);color:#fff;border-color:var(--accent);}
+.ctrl-hint{font-size:11px;color:var(--ink-soft);margin-left:auto;}
+
+/* MAIN */
+.container{max-width:1100px;margin:0 auto;padding:32px 40px 80px;}
+
+/* CARDS */
+.cards{display:flex;flex-direction:column;gap:16px;}
+.card{background:#fff;border:.5px solid var(--ink-faint);border-radius:14px;overflow:hidden;transition:box-shadow .15s;}
+.card:hover{box-shadow:0 4px 24px rgba(0,0,0,.07);}
+.card.top-pick{border-color:var(--green);box-shadow:0 0 0 1px var(--green);}
+.card-header{display:grid;grid-template-columns:2fr 1fr 1fr 1fr 1fr 1fr 80px;gap:0;border-bottom:.5px solid var(--ink-faint);cursor:pointer;user-select:none;}
+.card-header:hover{background:var(--surface);}
+.ch-cell{padding:14px 16px;display:flex;flex-direction:column;justify-content:center;}
+.ch-cell.r{text-align:right;align-items:flex-end;}
+.ch-cell+.ch-cell{border-left:.5px solid var(--ink-faint);}
+.prop-name{font-size:15px;font-weight:500;color:var(--ink);line-height:1.25;margin-bottom:2px;}
+.prop-area{font-size:11px;color:var(--ink-soft);}
+.prop-badges{display:flex;gap:4px;margin-top:6px;flex-wrap:wrap;}
+.badge{display:inline-block;font-size:10px;font-weight:500;padding:2px 8px;border-radius:99px;}
+.badge-std{background:var(--surface);color:var(--ink-soft);}
+.badge-plus{background:var(--blue-bg);color:var(--accent);}
+.metric-val{font-size:15px;font-weight:500;color:var(--ink);}
+.metric-sub{font-size:11px;color:var(--ink-soft);margin-top:1px;}
+.metric-val.green{color:var(--green);}
+.metric-val.amber{color:var(--amber);}
+.metric-val.red{color:var(--red);}
+.score-circle{width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:600;font-family:'Playfair Display',serif;margin:0 auto;}
+.score-circle.green{background:var(--green-bg);color:var(--green);}
+.score-circle.amber{background:var(--amber-bg);color:var(--amber);}
+.score-circle.red{background:var(--red-bg);color:var(--red);}
+.pg-link{display:inline-flex;align-items:center;gap:3px;font-size:11px;font-weight:500;color:var(--accent);text-decoration:none;padding:3px 8px;border:.5px solid rgba(26,58,92,.25);border-radius:6px;margin-top:8px;}
+.pg-link:hover{background:var(--blue-bg);}
+.expand-btn{width:28px;height:28px;border-radius:50%;border:.5px solid var(--ink-faint);background:none;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:14px;color:var(--ink-soft);margin:auto;transition:transform .2s;}
+.expand-btn.open{transform:rotate(180deg);}
+
+/* CARD BODY */
+.card-body{display:none;border-top:.5px solid var(--ink-faint);}
+.card-body.open{display:block;}
+.card-body-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:0;}
+.cb-section{padding:18px 20px;}
+.cb-section+.cb-section{border-left:.5px solid var(--ink-faint);}
+.cb-label{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-soft);margin-bottom:10px;}
+.school-row,.amen-row{display:flex;justify-content:space-between;align-items:baseline;padding:4px 0;border-bottom:.5px solid var(--ink-faint);font-size:13px;}
+.school-row:last-child,.amen-row:last-child{border-bottom:none;}
+.school-name,.amen-name{color:var(--ink-mid);}
+.school-dist,.amen-dist{font-size:11px;color:var(--ink-soft);white-space:nowrap;margin-left:8px;}
+.vibe-wrap{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:12px;}
+.vibe-tag{display:inline-block;font-size:11px;padding:3px 9px;border-radius:99px;border:.5px solid var(--ink-faint);color:var(--ink-mid);}
+.verdict{background:var(--surface);border-radius:8px;padding:11px 14px;font-size:12px;color:var(--ink-mid);line-height:1.65;margin-top:0;}
+.verdict.warn{border-left:3px solid var(--amber);border-radius:0 8px 8px 0;}
+.verdict.good{border-left:3px solid var(--green);border-radius:0 8px 8px 0;}
+.verdict.bad{border-left:3px solid var(--red);border-radius:0 8px 8px 0;}
+.verdict strong{font-weight:500;color:var(--ink);}
+
+/* TOP-PICK BADGE */
+.top-pick-banner{background:var(--green);color:#fff;font-size:11px;font-weight:500;padding:5px 16px;letter-spacing:.04em;}
+
+/* TABLE HEADER ROW */
+.table-header-row{display:grid;grid-template-columns:2fr 1fr 1fr 1fr 1fr 1fr 80px;gap:0;padding:6px 0;margin-bottom:4px;}
+.th-cell{padding:0 16px;font-family:'DM Mono',monospace;font-size:10px;letter-spacing:.07em;text-transform:uppercase;color:var(--ink-soft);}
+.th-cell.r{text-align:right;}
+
+/* KEY */
+.key{display:flex;flex-wrap:wrap;gap:14px;margin-bottom:24px;font-size:12px;color:var(--ink-soft);}
+.key span{display:flex;align-items:center;gap:5px;}
+.key-dot{width:10px;height:10px;border-radius:50%;}
+
+/* NOTE */
+.note{font-size:12px;color:var(--ink-soft);margin-top:24px;padding:12px 16px;background:var(--surface);border-radius:8px;line-height:1.65;}
+
+/* FOOTER */
+footer{background:var(--surface);border-top:.5px solid var(--ink-faint);padding:20px 56px;font-size:11px;color:var(--ink-soft);display:flex;justify-content:space-between;flex-wrap:wrap;gap:6px;margin-top:40px;}
+
+@media(max-width:800px){
+  .header{padding:36px 24px 32px;}
+  .header h1{font-size:28px;}
+  .ctrl-bar{padding:14px 20px;}
+  .container{padding:20px 16px 60px;}
+  .card-header,.table-header-row,.card-body-grid{grid-template-columns:1fr;}
+  .ch-cell+.ch-cell,.cb-section+.cb-section{border-left:none;border-top:.5px solid var(--ink-faint);}
+  footer{padding:16px 20px;flex-direction:column;}
+}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <p class="eyebrow">Property research · Singapore · June 2026</p>
+  <h1>HDB Shortlist</h1>
+  <p class="header-sub">8 resale flats compared across lease, location, schools, amenities, and value. Adjust buyer age to recalculate CPF coverage.</p>
+  <div class="header-stats">
+    <div><p class="hs-label">Properties</p><p class="hs-val">8 listings</p><p class="hs-sub">across D03, D04, D14, D15, D19</p></div>
+    <div><p class="hs-label">Price range</p><p class="hs-val">$895K–$1.14M</p><p class="hs-sub">asking prices</p></div>
+    <div><p class="hs-label">Size range</p><p class="hs-val">1,001–1,572 sqft</p><p class="hs-sub">floor area</p></div>
+    <div><p class="hs-label">Lease range</p><p class="hs-val">59–97 years</p><p class="hs-sub">remaining at 2028 purchase</p></div>
+  </div>
+</div>
+
+<div class="ctrl-bar">
+  <div class="ctrl">
+    <label for="buyerAge">Her age at purchase</label>
+    <input type="range" id="buyerAge" min="28" max="36" value="32" style="width:90px;">
+    <strong id="ageOut">32</strong>
+  </div>
+  <div style="display:flex;gap:6px;align-items:center;">
+    <span style="font-size:12px;color:var(--ink-soft);">Sort by</span>
+    <button class="sort-btn active" onclick="setSort('score',this)">Score</button>
+    <button class="sort-btn" onclick="setSort('price',this)">Price</button>
+    <button class="sort-btn" onclick="setSort('lease',this)">Lease</button>
+    <button class="sort-btn" onclick="setSort('psf',this)">PSF</button>
+    <button class="sort-btn" onclick="setSort('size',this)">Size</button>
+  </div>
+  <p class="ctrl-hint">Click any card to expand details</p>
+</div>
+
+<div class="container">
+  <div class="table-header-row">
+    <div class="th-cell">Property</div>
+    <div class="th-cell r">Price</div>
+    <div class="th-cell r">Size / PSF</div>
+    <div class="th-cell r">Built</div>
+    <div class="th-cell r">Lease left</div>
+    <div class="th-cell r">CPF cover</div>
+    <div class="th-cell r">Score</div>
+  </div>
+
+  <div class="key">
+    <span><span class="key-dot" style="background:var(--green)"></span>Full CPF &amp; LTV</span>
+    <span><span class="key-dot" style="background:var(--amber)"></span>Pro-rated CPF</span>
+    <span><span class="key-dot" style="background:var(--red)"></span>Restricted</span>
+    <span><span class="key-dot" style="background:#e8f0f8;border:.5px solid #B5D4F4"></span>PLUS location</span>
+    <span><span class="key-dot" style="background:var(--surface);border:.5px solid var(--ink-faint)"></span>STANDARD location</span>
+  </div>
+
+  <div class="cards" id="cardsContainer"></div>
+
+  <div class="note" id="noteEl"></div>
+</div>
+
+<footer>
+  <span>HDB Shortlist · Singapore · June 2026</span>
+  <span>For personal reference only · Not financial or property advice · Verify all details with HDB and licensed property agents</span>
+</footer>
+
+<script>
+const PROPS = [
+  {
+    id:'serangoon',
+    name:'424 Serangoon Central',
+    area:'Serangoon · D19',
+    price:1090000, sqft:1572, built:1988, leaseStart:1989, leaseTerm:99,
+    flatType:'Executive Maisonette',
+    mrt:'Serangoon MRT (CC/NE)', walkMins:5,
+    url:'https://www.propertyguru.com.sg/listing/hdb-for-sale-424-serangoon-central-500162416',
+    schools:[{n:'Yangzheng Pri',d:'780m'},{n:'Maris Stella High',d:'789m'},{n:'PLMGPS',d:'1.05km'}],
+    amenities:[{n:'NEX Mall',d:'501m'},{n:'Serangoon Interchange',d:'~400m'},{n:'Hawker centre',d:'~400m'},{n:'Cold Storage',d:'~500m'}],
+    vibes:['Mature estate','Extremely connected','Busy interchange','Community feel','Night markets nearby'],
+    pillar:'STANDARD',
+    locScore:8,
+    concern:'Duplex with internal stairs — impractical with young children. Lease <62 yrs: CPF already pro-rated at purchase. Post-MOP ~56 yrs remaining — resale liquidity seriously constrained.',
+    verdictType:'warn',
+  },
+  {
+    id:'geylang',
+    name:'2C Sri Geylang Serai',
+    area:'Geylang · D14',
+    price:1010000, sqft:1022, built:2010, leaseStart:2011, leaseTerm:99,
+    flatType:'4-Room',
+    mrt:'Paya Lebar MRT (EW/CC)', walkMins:9,
+    url:'https://www.propertyguru.com.sg/listing/hdb-for-sale-2c-sri-geylang-serai-500158074',
+    schools:[{n:'Haig Girls Sch',d:'~800m'},{n:'Kong Hwa Pri',d:'~1.2km'},{n:'Maha Bodhi',d:'~900m'}],
+    amenities:[{n:'Kinex Mall',d:'417m'},{n:'PLQ Mall',d:'750m'},{n:'FairPrice',d:'120m'},{n:'Geylang Serai Mkt',d:'~300m'}],
+    vibes:['Modern block','Cultural enclave','Vibrant food scene','Geylang stigma','Strong rental demand'],
+    pillar:'STANDARD',
+    locScore:7,
+    concern:'Geylang address carries a resale stigma despite the block being modern. PSF ~$989 is high for the area. Only 1,022 sqft — tighter than it looks.',
+    verdictType:'warn',
+  },
+  {
+    id:'henderson',
+    name:'95C Henderson Road',
+    area:'Bukit Merah · D03',
+    price:1080000, sqft:1001, built:2018, leaseStart:2019, leaseTerm:99,
+    flatType:'4-Room',
+    mrt:'Tiong Bahru MRT (EW)', walkMins:8,
+    url:'https://www.propertyguru.com.sg/listing/hdb-for-sale-95c-henderson-road-500157148',
+    schools:[{n:'Gan Eng Seng Pri',d:'271m'},{n:'Alexandra Pri',d:'516m'},{n:'Zhangde Pri',d:'569m'}],
+    amenities:[{n:'Tiong Bahru Plaza',d:'~600m'},{n:'Tiong Bahru Market',d:'~400m'},{n:'Cold Storage',d:'369m'},{n:'Henderson CC',d:'217m'},{n:'Tiong Bahru Park',d:'215m'}],
+    vibes:['City-fringe gem','Tiong Bahru cool','Cafe culture','Young professional crowd','Near CBD'],
+    pillar:'PLUS',
+    locScore:9,
+    concern:'Only 1,001 sqft — tight for a family of four long-term. Highest PSF of the group at ~$1,080. PLUS location means HDB resale restrictions apply.',
+    verdictType:'warn',
+  },
+  {
+    id:'telokC',
+    name:'70C Telok Blangah Heights',
+    area:'Bukit Merah · D04',
+    price:979000, sqft:1001, built:2016, leaseStart:2017, leaseTerm:99,
+    flatType:'4-Room',
+    mrt:'Telok Blangah MRT (CC)', walkMins:10,
+    url:'https://www.propertyguru.com.sg/listing/hdb-for-sale-70c-telok-blangah-heights-500031072',
+    schools:[{n:'Radin Mas Pri',d:'~1.2km'},{n:'Gan Eng Seng Sch',d:'~1.5km'}],
+    amenities:[{n:'Depot Heights SC',d:'~800m'},{n:'VivoCity',d:'~15 min'},{n:'Southern Ridges',d:'~5min walk'},{n:'Labrador Park',d:'~10min walk'}],
+    vibes:['Green & quiet','Southern Ridges access','Sea views possible','Far from CBD bustle','Good air quality'],
+    pillar:'STANDARD',
+    locScore:7,
+    concern:'1,001 sqft is tight for two kids long-term. 10–12 min walk to MRT. Thin on nearby retail and dining — feels more suburban. Good for nature lovers but limited convenience.',
+    verdictType:'warn',
+  },
+  {
+    id:'jbatu11',
+    name:'11 Jalan Batu',
+    area:'Kallang · D15',
+    price:1098000, sqft:1420, built:1986, leaseStart:1986, leaseTerm:99,
+    flatType:'5A / Executive',
+    mrt:'Mountbatten MRT (CC)', walkMins:8,
+    url:'https://www.propertyguru.com.sg/listing/hdb-for-sale-11-jalan-batu-500156900',
+    schools:[{n:'Kong Hwa Pri',d:'~900m'},{n:'Dunman High',d:'~1km'},{n:'Chung Cheng High',d:'~1.5km'}],
+    amenities:[{n:'Old Airport Rd Hawker',d:'~800m'},{n:'Sports Hub / Kallang',d:'~1.5km'},{n:'East Coast Park',d:'~1.5km'},{n:'Canal park connector',d:'doorstep'}],
+    vibes:['East Coast lifestyle','Canal & park access','Spacious old-school units','Active outdoor scene','Quiet residential'],
+    pillar:'STANDARD',
+    locScore:8,
+    concern:'⚠️ AVOID for upgrade strategy. Only 59 yrs remaining — CPF and LTV already pro-rated at purchase (32+59=91, below 95 threshold). Post-MOP only ~54 yrs left: severely constrained buyer pool. Great location, wrong lease.',
+    verdictType:'bad',
+  },
+  {
+    id:'jbatu10',
+    name:'10 Jalan Batu',
+    area:'Kallang · D15',
+    price:920000, sqft:1421, built:1986, leaseStart:1986, leaseTerm:99,
+    flatType:'5I / Executive',
+    mrt:'Mountbatten MRT (CC)', walkMins:8,
+    url:'https://www.propertyguru.com.sg/listing/hdb-for-sale-10-jalan-batu-500160535',
+    schools:[{n:'Kong Hwa Pri',d:'~900m'},{n:'Dunman High',d:'~1km'},{n:'Broadrick Sec',d:'~700m'}],
+    amenities:[{n:'Hawker & wet market',d:'2 min walk'},{n:'Old Airport Rd Hawker',d:'~800m'},{n:'East Coast Park',d:'~1.5km'},{n:'Kallang Riverside',d:'~1km'}],
+    vibes:['East Coast lifestyle','Best size/price ratio','Active outdoor scene','Canal park connector','Quiet residential enclave'],
+    pillar:'STANDARD',
+    locScore:8,
+    concern:'Best value on the list at ~$648 psf for 1,421 sqft. Lease ~68 yrs: full CPF and LTV at purchase (32+68=100≥95). Post-MOP ~63 yrs — still workable but approaching friction zone. Ask about specific floor and facing.',
+    verdictType:'good',
+  },
+  {
+    id:'telok85',
+    name:'85 Telok Blangah Heights',
+    area:'Bukit Merah · D04',
+    price:895000, sqft:1206, built:2001, leaseStart:2003, leaseTerm:99,
+    flatType:'4-Room (large)',
+    mrt:'Telok Blangah MRT (CC)', walkMins:12,
+    url:'https://www.propertyguru.com.sg/listing/hdb-for-sale-85-telok-blangah-heights-500141407',
+    schools:[{n:'Radin Mas Pri',d:'~1.2km'},{n:'Gan Eng Seng Sch',d:'~1.8km'}],
+    amenities:[{n:'Depot Heights SC',d:'~600m'},{n:'Alexandra Retail Centre',d:'~1km'},{n:'Southern Ridges',d:'~10min walk'},{n:'FairPrice',d:'nearby'}],
+    vibes:['Quiet hilltop setting','Green outlook','Southern Ridges access','Away from city noise','Suburban pace'],
+    pillar:'STANDARD',
+    locScore:7,
+    concern:'⚠️ Check Ethnic Integration Policy (EIP) quota before committing — Indian quota restriction flagged in agent listings. 12 min walk to MRT. Good lease (~76 yrs) and best price on the list at $895K.',
+    verdictType:'warn',
+  },
+  {
+    id:'kimtian',
+    name:'127C Kim Tian Road',
+    area:'Bukit Merah · D03',
+    price:1138000, sqft:1001, built:2011, leaseStart:2013, leaseTerm:99,
+    flatType:'4-Room',
+    mrt:'Tiong Bahru MRT (EW)', walkMins:10,
+    url:'https://www.propertyguru.com.sg/listing/hdb-for-sale-127c-kim-tian-road-500146605',
+    schools:[{n:'Zhangde Pri',d:'~700m'},{n:'Radin Mas Pri',d:'~900m'},{n:'Outram Sec',d:'~800m'}],
+    amenities:[{n:'Tiong Bahru Plaza',d:'~700m'},{n:'Tiong Bahru Market',d:'~900m'},{n:'Giant Supermarket',d:'nearby'},{n:'Havelock MRT (TE)',d:'~10min walk'}],
+    vibes:['Tiong Bahru lifestyle','Two MRT lines nearby','High-floor views','Young families area','Premium HDB location'],
+    pillar:'PLUS',
+    locScore:9,
+    concern:'Best lease and location combination on the list (~94 yrs, D03). But most expensive on PSF (~$1,137). Small at 1,001 sqft for two kids. PLUS location: HDB resale restrictions apply. Best long-term resale profile.',
+    verdictType:'good',
+  },
+];
+
+let sortMode = 'score';
+
+function calcLease(p){ return p.leaseTerm - (2028 - p.leaseStart); }
+function cpf(p, age){
+  const rem = calcLease(p), sum = age + rem;
+  if(sum >= 95) return {label:'Full ✓', cls:'green', detail: age+'+'+rem+'='+sum+'≥95'};
+  if(sum >= 80){ const pct = Math.round(rem/(95-age)*100); return {label:'~'+pct+'% pro-rated', cls:'amber', detail: age+'+'+rem+'='+sum+'<95'}; }
+  return {label:'Restricted ✗', cls:'red', detail: age+'+'+rem+'='+sum+'<80'};
+}
+function leaseScore(p){
+  const r = calcLease(p);
+  if(r>=90) return {s:10,l:'Excellent',c:'green'};
+  if(r>=80) return {s:8,l:'Very good',c:'green'};
+  if(r>=70) return {s:7,l:'Good',c:'green'};
+  if(r>=63) return {s:5,l:'Borderline',c:'amber'};
+  if(r>=60) return {s:3,l:'Tight',c:'amber'};
+  return {s:1,l:'Avoid',c:'red'};
+}
+function overallScore(p, age){
+  const ls = leaseScore(p);
+  const psf = p.price/p.sqft;
+  const psfS = psf<700?10:psf<800?8:psf<900?7:psf<1000?5:psf<1100?4:2;
+  const szS = p.sqft>=1400?10:p.sqft>=1200?8:p.sqft>=1001?5:3;
+  const cv = cpf(p, age);
+  const pen = cv.cls==='red'?-3:cv.cls==='amber'?-1:0;
+  return Math.min(10,Math.max(1,Math.round(ls.s*0.4+p.locScore*0.3+psfS*0.15+szS*0.15)+pen));
+}
+
+function fmt(n){ return '$'+Math.round(n).toLocaleString(); }
+
+function setSort(mode, btn){
+  sortMode = mode;
+  document.querySelectorAll('.sort-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  render();
+}
+
+function toggleCard(id){
+  const body = document.getElementById('body-'+id);
+  const btn = document.getElementById('expbtn-'+id);
+  const isOpen = body.classList.contains('open');
+  body.classList.toggle('open', !isOpen);
+  btn.classList.toggle('open', !isOpen);
+  btn.textContent = isOpen ? '↓' : '↑';
+}
+
+function render(){
+  const age = parseInt(document.getElementById('buyerAge').value);
+  document.getElementById('ageOut').textContent = age;
+
+  const sorted = [...PROPS].sort((a,b)=>{
+    if(sortMode==='score') return overallScore(b,age)-overallScore(a,age);
+    if(sortMode==='price') return a.price-b.price;
+    if(sortMode==='lease') return calcLease(b)-calcLease(a);
+    if(sortMode==='psf') return (a.price/a.sqft)-(b.price/b.sqft);
+    if(sortMode==='size') return b.sqft-a.sqft;
+    return 0;
+  });
+
+  const container = document.getElementById('cardsContainer');
+  container.innerHTML = '';
+
+  sorted.forEach((p, i) => {
+    const rem = calcLease(p);
+    const cv = cpf(p, age);
+    const ls = leaseScore(p);
+    const score = overallScore(p, age);
+    const psf = Math.round(p.price/p.sqft);
+    const isBest = i===0 && sortMode==='score';
+    const scoreClsName = score>=8?'green':score>=6?'amber':'red';
+
+    const card = document.createElement('div');
+    card.className = 'card'+(isBest?' top-pick':'');
+
+    let html = '';
+    if(isBest) html += `<div class="top-pick-banner">⭐ Top pick at age ${age}</div>`;
+
+    html += `
+    <div class="card-header" onclick="toggleCard('${p.id}')">
+      <div class="ch-cell">
+        <div class="prop-name">${p.name}</div>
+        <div class="prop-area">${p.area} · ${p.mrt} · ${p.walkMins} min walk</div>
+        <div class="prop-badges">
+          <span class="badge ${p.pillar==='PLUS'?'badge-plus':'badge-std'}">${p.pillar}</span>
+          <span class="badge badge-std">${p.flatType}</span>
+        </div>
+        <a href="${p.url}" target="_blank" onclick="event.stopPropagation()" class="pg-link">↗ View on PropertyGuru</a>
+      </div>
+      <div class="ch-cell r">
+        <div class="metric-val">${fmt(p.price)}</div>
+        <div class="metric-sub">${fmt(psf)} psf</div>
+      </div>
+      <div class="ch-cell r">
+        <div class="metric-val">${p.sqft.toLocaleString()} sqft</div>
+        <div class="metric-sub">Built ${p.built}</div>
+      </div>
+      <div class="ch-cell r">
+        <div class="metric-val">${p.built}</div>
+      </div>
+      <div class="ch-cell r">
+        <div class="metric-val ${ls.c}">${rem} yrs</div>
+        <div class="metric-sub" style="color:var(--${ls.c==='green'?'green':ls.c==='amber'?'amber':'red'})">${ls.l}</div>
+      </div>
+      <div class="ch-cell r">
+        <div class="metric-val ${cv.cls}">${cv.label}</div>
+        <div class="metric-sub">${cv.detail}</div>
+      </div>
+      <div class="ch-cell r">
+        <div class="score-circle ${scoreClsName}">${score}</div>
+        <div style="text-align:center;margin-top:4px;">
+          <button class="expand-btn" id="expbtn-${p.id}" onclick="event.stopPropagation();toggleCard('${p.id}')">↓</button>
+        </div>
+      </div>
+    </div>
+    <div class="card-body" id="body-${p.id}">
+      <div class="card-body-grid">
+        <div class="cb-section">
+          <div class="cb-label">Nearby schools</div>
+          ${p.schools.map(s=>`<div class="school-row"><span class="school-name">${s.n}</span><span class="school-dist">${s.d}</span></div>`).join('')}
+        </div>
+        <div class="cb-section">
+          <div class="cb-label">Amenities</div>
+          ${p.amenities.map(a=>`<div class="amen-row"><span class="amen-name">${a.n}</span><span class="amen-dist">${a.d}</span></div>`).join('')}
+        </div>
+        <div class="cb-section">
+          <div class="cb-label">Area &amp; vibe</div>
+          <div class="vibe-wrap">${p.vibes.map(v=>`<span class="vibe-tag">${v}</span>`).join('')}</div>
+          <div class="verdict ${p.verdictType}"><strong>Verdict:</strong> ${p.concern}</div>
+        </div>
+      </div>
+    </div>`;
+
+    card.innerHTML = html;
+    container.appendChild(card);
+  });
+
+  const best = sorted[0];
+  document.getElementById('noteEl').textContent =
+    `Scores weighted: lease remaining 40% · location 30% · PSF value 15% · flat size 15%. CPF penalty applied if coverage is pro-rated or restricted. ` +
+    `All lease years calculated assuming purchase in 2028. Youngest buyer age set to ${age}. ` +
+    `Current top pick: ${best.name} — ${calcLease(best)} years remaining, ${best.sqft.toLocaleString()} sqft, ${fmt(Math.round(best.price/best.sqft))} psf.`;
+}
+
+document.getElementById('buyerAge').addEventListener('input', render);
+render();
+</script>
+</body>
+</html>
